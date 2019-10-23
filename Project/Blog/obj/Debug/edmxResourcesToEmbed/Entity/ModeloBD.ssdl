@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="blog_dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="comments">
+    <Key>
+      <PropertyRef Name="comment_id" />
+    </Key>
+    <Property Name="comment_id" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="comment_author" Type="varchar" MaxLength="50" />
+    <Property Name="comment_email" Type="varchar" MaxLength="50" />
+    <Property Name="comment_text" Type="varchar" MaxLength="500" />
+    <Property Name="comment_timestamp" Type="datetime" />
+    <Property Name="comment_post_id" Type="numeric" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="posts">
+    <Key>
+      <PropertyRef Name="post_id" />
+    </Key>
+    <Property Name="post_id" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="post_title" Type="varchar" MaxLength="50" />
+    <Property Name="post_text" Type="varchar(max)" />
+    <Property Name="post_author" Type="varchar" MaxLength="50" />
+    <Property Name="post_change" Type="datetime" />
+    <Property Name="post_published" Type="bit" />
+  </EntityType>
+  <Association Name="FK_comments_posts">
+    <End Role="posts" Type="Self.posts" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="comments" Type="Self.comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="posts">
+        <PropertyRef Name="post_id" />
+      </Principal>
+      <Dependent Role="comments">
+        <PropertyRef Name="comment_post_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="blog_dbModelStoreContainer">
+    <EntitySet Name="comments" EntityType="Self.comments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="posts" EntityType="Self.posts" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_comments_posts" Association="Self.FK_comments_posts">
+      <End Role="posts" EntitySet="posts" />
+      <End Role="comments" EntitySet="comments" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

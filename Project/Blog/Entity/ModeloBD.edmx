@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="blog_dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="comments">
+          <Key>
+            <PropertyRef Name="comment_id" />
+          </Key>
+          <Property Name="comment_id" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="comment_author" Type="varchar" MaxLength="50" />
+          <Property Name="comment_email" Type="varchar" MaxLength="50" />
+          <Property Name="comment_text" Type="varchar" MaxLength="500" />
+          <Property Name="comment_timestamp" Type="datetime" />
+          <Property Name="comment_post_id" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="posts">
+          <Key>
+            <PropertyRef Name="post_id" />
+          </Key>
+          <Property Name="post_id" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="post_title" Type="varchar" MaxLength="50" />
+          <Property Name="post_text" Type="varchar(max)" />
+          <Property Name="post_author" Type="varchar" MaxLength="50" />
+          <Property Name="post_change" Type="datetime" />
+          <Property Name="post_published" Type="bit" />
+        </EntityType>
+        <Association Name="FK_comments_posts">
+          <End Role="posts" Type="Self.posts" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="comments" Type="Self.comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="posts">
+              <PropertyRef Name="post_id" />
+            </Principal>
+            <Dependent Role="comments">
+              <PropertyRef Name="comment_post_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="blog_dbModelStoreContainer">
+          <EntitySet Name="comments" EntityType="Self.comments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="posts" EntityType="Self.posts" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_comments_posts" Association="Self.FK_comments_posts">
+            <End Role="posts" EntitySet="posts" />
+            <End Role="comments" EntitySet="comments" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="blog_dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="comments">
+          <Key>
+            <PropertyRef Name="comment_id" />
+          </Key>
+          <Property Name="comment_id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="comment_author" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="comment_email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="comment_text" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="comment_timestamp" Type="DateTime" Precision="3" />
+          <Property Name="comment_post_id" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="posts" Relationship="Self.FK_comments_posts" FromRole="comments" ToRole="posts" />
+        </EntityType>
+        <EntityType Name="posts">
+          <Key>
+            <PropertyRef Name="post_id" />
+          </Key>
+          <Property Name="post_id" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="post_title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="post_text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="post_author" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="post_change" Type="DateTime" Precision="3" />
+          <Property Name="post_published" Type="Boolean" />
+          <NavigationProperty Name="comments" Relationship="Self.FK_comments_posts" FromRole="posts" ToRole="comments" />
+        </EntityType>
+        <Association Name="FK_comments_posts">
+          <End Role="posts" Type="Self.posts" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="comments" Type="Self.comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="posts">
+              <PropertyRef Name="post_id" />
+            </Principal>
+            <Dependent Role="comments">
+              <PropertyRef Name="comment_post_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="blog_dbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="comments" EntityType="Self.comments" />
+          <EntitySet Name="posts" EntityType="Self.posts" />
+          <AssociationSet Name="FK_comments_posts" Association="Self.FK_comments_posts">
+            <End Role="posts" EntitySet="posts" />
+            <End Role="comments" EntitySet="comments" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="blog_dbModelStoreContainer" CdmEntityContainer="blog_dbEntities">
+          <EntitySetMapping Name="comments">
+            <EntityTypeMapping TypeName="blog_dbModel.comments">
+              <MappingFragment StoreEntitySet="comments">
+                <ScalarProperty Name="comment_id" ColumnName="comment_id" />
+                <ScalarProperty Name="comment_author" ColumnName="comment_author" />
+                <ScalarProperty Name="comment_email" ColumnName="comment_email" />
+                <ScalarProperty Name="comment_text" ColumnName="comment_text" />
+                <ScalarProperty Name="comment_timestamp" ColumnName="comment_timestamp" />
+                <ScalarProperty Name="comment_post_id" ColumnName="comment_post_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="posts">
+            <EntityTypeMapping TypeName="blog_dbModel.posts">
+              <MappingFragment StoreEntitySet="posts">
+                <ScalarProperty Name="post_id" ColumnName="post_id" />
+                <ScalarProperty Name="post_title" ColumnName="post_title" />
+                <ScalarProperty Name="post_text" ColumnName="post_text" />
+                <ScalarProperty Name="post_author" ColumnName="post_author" />
+                <ScalarProperty Name="post_change" ColumnName="post_change" />
+                <ScalarProperty Name="post_published" ColumnName="post_published" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
