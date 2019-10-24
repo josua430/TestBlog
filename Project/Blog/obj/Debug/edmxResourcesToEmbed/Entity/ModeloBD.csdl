@@ -21,8 +21,10 @@
     <Property Name="post_text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="post_author" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="post_change" Type="DateTime" Precision="3" />
-    <Property Name="post_published" Type="Boolean" />
     <NavigationProperty Name="comments" Relationship="Self.FK_comments_posts" FromRole="posts" ToRole="comments" />
+    <Property Name="post_approval" Type="DateTime" Precision="3" />
+    <Property Name="post_status_published" Type="Decimal" Precision="1" Scale="0" />
+    <Property Name="post_approval_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
   </EntityType>
   <Association Name="FK_comments_posts">
     <End Role="posts" Type="Self.posts" Multiplicity="0..1">

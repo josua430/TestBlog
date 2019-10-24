@@ -74,13 +74,11 @@ namespace Blog.Helpers
             {
                 //Se valida si ya existe
                 //validacion si ya existe un elemento con el mismo nombre
-                var validate = context.posts.FirstOrDefault(t => t.post_title.ToUpper().Trim() == strTitle.ToUpper().Trim());
-                if (validate != null)
+                var validate = context.posts.FirstOrDefault(t => t.post_title.ToUpper().Trim() == strTitle.ToUpper().Trim()
+                && t.post_id.ToString() != strId);
+                if (validate == null)
                 {
-                    if (strId != validate.post_id.ToString())
-                    {
-                        return false;
-                    }
+                    return false;
                 }
                 return true;
             }
@@ -91,7 +89,7 @@ namespace Blog.Helpers
         /// </summary>
         /// <param name="blnAuthenticated">Param to identify if the user is authenticated</param>
         /// <returns></returns>
-        public List<Post> ListPosts(bool blnAuthenticated)
+        public List<Post> ListPosts(bool blnAuthenticated, string strProfile)
         {
             //Lista a retornar o mostrar en la grilla
             var Lista = new List<Models.Post>();
@@ -100,17 +98,44 @@ namespace Blog.Helpers
             {
                 //Consulta a la tabla
                 List<Entity.posts> lstPosts;
-                if (blnAuthenticated)
+                if (!blnAuthenticated)
                 {
-                    lstPosts = context.posts.Where(a => a.post_published == true).OrderBy(d => d.post_title).ToList();
+                    lstPosts = context.posts.Where(a => a.post_status_published == 2).OrderBy(d => d.post_title).ToList();
                 }
                 else
                 {
-                    lstPosts = context.posts.OrderBy(d => d.post_title).ToList();
+                    if (strProfile == "2")
+                    {
+                        lstPosts = context.posts.Where(a => a.post_status_published == 1).OrderBy(d => d.post_title).ToList();
+                    }
+                    else
+                    {
+                        lstPosts = context.posts.OrderBy(d => d.post_title).ToList();
+                    }
                 }
 
-                foreach (var item in lstPosts)
+                foreach (Entity.posts item in lstPosts)
                 {
+                    string strStatusName;
+                    switch ((int)item.post_status_published)
+                    {
+                        case 1:
+                            strStatusName = "Pending";
+                            break;
+                        case 2:
+                            strStatusName = "Published";
+                            break;
+                        default:
+                            strStatusName = "Created";
+                            break;
+                    }
+
+                    bool blnEditButton = false;
+                    if ((item.post_status_published != 1 && strProfile == "1") || (item.post_status_published == 1 && strProfile == "2"))
+                    {
+                        blnEditButton = true;
+                    }
+
                     //Se agregan a la lista
                     Lista.Add(new Models.Post
                     {
@@ -118,7 +143,12 @@ namespace Blog.Helpers
                         strText = item.post_text,
                         strAuthor = item.post_author,
                         strChange = ((DateTime)item.post_change).ToString("yyyy-MM-dd hh:mm"),
-                        blnPublished = (bool)item.post_published,
+                        strApproval = item.post_approval == null ? "" : ((DateTime)item.post_approval).ToString("yyyy-MM-dd hh:mm"),
+                        strApproverName = item.post_approval_name,
+                        strStatusPublished = strStatusName,
+                        strShowEditButton = blnEditButton==false ? "disabled" : "",
+                        strShowDeleteButton = item.post_status_published != 2 ? "disabled" : "",
+                        strShowCommentButton = item.post_status_published != 2 ? "disabled" : "",
                         IdPost = (int)item.post_id
                     });
                 }
@@ -162,7 +192,7 @@ namespace Blog.Helpers
                 model.post_text = objPost.strText;
                 model.post_author = objPost.strAuthor;
                 model.post_change = DateTime.Now;
-                model.post_published = objPost.blnPublished;
+                model.post_status_published = objPost.blnStatusToPublish == true ? 1 : 0;
                 context.posts.Add(model);
                 context.SaveChanges();
             }
@@ -172,7 +202,9 @@ namespace Blog.Helpers
         /// Method to update a post
         /// </summary>
         /// <param name="objPost">Element with all data to save</param>
-        public void Update(Models.Post objPost)
+        /// <param name="strProfile">Profile of user. 1= writer, 2=editor</param>
+        /// <param name="strName">User name</param>
+        public void Update(Models.Post objPost, string strProfile, string strName)
         {
             using (var context = new Entity.blog_dbEntities())
             {
@@ -180,11 +212,24 @@ namespace Blog.Helpers
                 var update = context.posts.FirstOrDefault(t => t.post_id == objPost.IdPost);
 
                 //Se actualiza
-                update.post_title = objPost.strTitle.Trim();
-                update.post_text = objPost.strText.Trim();
-                update.post_author = objPost.strAuthor.Trim();
-                update.post_change = DateTime.Now;
-                update.post_published = objPost.blnPublished;
+                if (strProfile == "1")
+                {
+                    //writer profile
+                    update.post_title = objPost.strTitle.Trim();
+                    update.post_text = objPost.strText.Trim();
+                    update.post_author = objPost.strAuthor.Trim();
+                    update.post_change = DateTime.Now;
+                    update.post_status_published = objPost.blnStatusToPublish == true ? 1 : 0;
+                }else
+                {
+                    //editor profile
+                    update.post_status_published = objPost.blnStatusToPublish == true ? 2 : 0;
+                    if (objPost.blnStatusToPublish == true)
+                    {
+                        update.post_approval = DateTime.Now;
+                        update.post_approval_name = strName;
+                    }
+                }
                 context.SaveChanges();
             }
         }

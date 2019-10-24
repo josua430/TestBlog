@@ -11,7 +11,8 @@
     <div class="col-md-12">
         <div class="box box-primary" style="height: 100%">
             <br />
-            @if (Session[Blog.Helpers.Constant.USUARIO] != null)
+            @if (Session[Blog.Helpers.Constant.USUARIO] != null && Session[Blog.Helpers.Constant.PERFIL] != null
+                && Session[Blog.Helpers.Constant.PERFIL].ToString() != "2")
             {
                 <div class="portlet-title">
                     <a href="@Url.Action("Insert", "Posts")" class="btn btn-default btn-md">
@@ -54,18 +55,20 @@
             e.workbook.fileName = "Posts.xlsx";
         },
         columns: [
-            { field: "IdPost", title: "Código", hidden:true },
+            { field: "IdPost", title: "Code", hidden:true },
             { field: "strTitle", title: "Title" },
             { field: "strText", title: "Text" },
             { field: "strAuthor", title: "Author" },
-            { field: "strChange", title: "Change" },
-            { field: "blnPublished", title: "Published" }
+            { field: "strChange", title: "Changed" },
+            { field: "strStatusPublished", title: "Status" },
+            { field: "strApproverName", title: "Approver" },
+            { field: "strApproval", title: "Approved" }
             @if (Session[Blog.Helpers.Constant.USUARIO] != null)
             {
-                @MvcHtmlString.Create(@" ,{ template: ""<a class='btn btn-success' href='" + (Url.Action("Update", "Posts")) + "?id=#= IdPost #'><span class='fa fa-edit'></span> Edit</a>" + @"""}");
-                @MvcHtmlString.Create(@" ,{ template: ""<input type='hidden' id='id' value='#= IdPost #' /> <button type='button' class='btn btn-danger' id='btnDelete'><span class='glyphicon glyphicon-trash'></span> Delete</button>""}");
+                @MvcHtmlString.Create(@" ,{ template: ""<a #= strShowEditButton # class='btn btn-success' href='" + (Url.Action("Update", "Posts")) + "?id=#= IdPost #'><span class='fa fa-edit'></span> Edit</a>" + @"""}");
+                @MvcHtmlString.Create(@" ,{ template: ""<input type='hidden' id='id' value='#= IdPost #' /> <button type='button' #= strShowDeleteButton # class='btn btn-danger' id='btnDelete'><span class='glyphicon glyphicon-trash'></span> Delete</button>""}");
             }
-                @MvcHtmlString.Create(@" ,{ template: ""<a class='btn btn-primary' href='" + (Url.Action("Index", "Comments")) + "?id=#= IdPost #'><span class='fa fa-comments'></span> Comments</a>" + @"""}")
+                @MvcHtmlString.Create(@" ,{ template: ""<a #= strShowCommentButton # class='btn btn-primary' href='" + (Url.Action("Index", "Comments")) + "?id=#= IdPost #'><span class='fa fa-comments'></span> Comments</a>" + @"""}")
     ],
     sortable:true,
     scrollable: true,

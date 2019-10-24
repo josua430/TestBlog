@@ -107,11 +107,6 @@
         });
     </script>
 
-    @functions{
-        private Int64? id = 0;
-        //public List<Blog.Entity.PERFIL> profile = new List<Blog.Entity.PERFIL>();
-    }
-
     <div id="wrapper">
 
         <div class="overlay"></div>
@@ -124,7 +119,7 @@
                     <a href="@Url.Action("Index", "Posts")"><i class="fa fa-building"></i> Posts</a>
                 </li>
                 <li>
-                    <a href="@Url.Action("logOut", "Login")"><i class="fa fa-times"></i><span> Cerrar Sesion</span></a>
+                    <a href="@Url.Action("logOut", "Login")"><i class="fa fa-times"></i><span> Close Session</span></a>
                 </li>
             </ul>
         </nav>

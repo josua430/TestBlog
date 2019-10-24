@@ -25,7 +25,9 @@ namespace Blog.Entity
         public string post_text { get; set; }
         public string post_author { get; set; }
         public Nullable<System.DateTime> post_change { get; set; }
-        public Nullable<bool> post_published { get; set; }
+        public Nullable<System.DateTime> post_approval { get; set; }
+        public Nullable<decimal> post_status_published { get; set; }
+        public string post_approval_name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<comments> comments { get; set; }

@@ -1,4 +1,3 @@
-C:\Desarrollos\Fuentes\otros\TestBlog\Project\Blog\obj\Debug\Blog.csprojAssemblyReference.cache
 C:\Desarrollos\Fuentes\otros\TestBlog\Project\Blog\obj\Debug\Blog.csproj.CoreCompileInputs.cache
 C:\Desarrollos\Fuentes\otros\TestBlog\Project\Blog\bin\ApplicationInsights.config
 C:\Desarrollos\Fuentes\otros\TestBlog\Project\Blog\bin\roslyn\csc.exe
@@ -107,3 +106,4 @@ C:\Desarrollos\Fuentes\otros\TestBlog\Project\Blog\bin\es\System.Web.Optimizatio
 C:\Desarrollos\Fuentes\otros\TestBlog\Project\Blog\obj\Debug\Blog.csproj.CopyComplete
 C:\Desarrollos\Fuentes\otros\TestBlog\Project\Blog\obj\Debug\Blog.dll
 C:\Desarrollos\Fuentes\otros\TestBlog\Project\Blog\obj\Debug\Blog.pdb
+C:\Desarrollos\Fuentes\otros\TestBlog\Project\Blog\obj\Debug\Blog.csprojAssemblyReference.cache

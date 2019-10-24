@@ -54,9 +54,19 @@
                         </div>
                         <br />
                         <div class="row">
-                            <div class="col-md-4 col-lg-offset-1 ">
-                                Publish: @Html.CheckBoxFor(a => a.blnPublished)
-                            </div>
+                            @if (Session[Blog.Helpers.Constant.USUARIO] != null && Session[Blog.Helpers.Constant.PERFIL] != null
+                                            && Session[Blog.Helpers.Constant.PERFIL].ToString() != "2")
+                            {
+                                <div class="col-md-4 col-lg-offset-1 ">
+                                    Send to Publish: @Html.CheckBoxFor(a => a.blnStatusToPublish)
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-4 col-lg-offset-1 ">
+                                    Approve?: @Html.CheckBoxFor(a => a.blnStatusToPublish)
+                                </div>
+                            }
                         </div>
                         <br />
 
@@ -67,7 +77,6 @@
                             Back
                         </a>
                     </div>
-
 
                     <div class="col-md-3 col-sm-2 col-lg-offset-5 ">
                         <button type="submit" class="btn btn-default" id="btnSave">

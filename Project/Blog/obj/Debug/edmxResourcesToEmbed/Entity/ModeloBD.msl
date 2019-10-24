@@ -16,12 +16,14 @@
     <EntitySetMapping Name="posts">
       <EntityTypeMapping TypeName="blog_dbModel.posts">
         <MappingFragment StoreEntitySet="posts">
+          <ScalarProperty Name="post_approval_name" ColumnName="post_approval_name" />
+          <ScalarProperty Name="post_status_published" ColumnName="post_status_published" />
+          <ScalarProperty Name="post_approval" ColumnName="post_approval" />
           <ScalarProperty Name="post_id" ColumnName="post_id" />
           <ScalarProperty Name="post_title" ColumnName="post_title" />
           <ScalarProperty Name="post_text" ColumnName="post_text" />
           <ScalarProperty Name="post_author" ColumnName="post_author" />
           <ScalarProperty Name="post_change" ColumnName="post_change" />
-          <ScalarProperty Name="post_published" ColumnName="post_published" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

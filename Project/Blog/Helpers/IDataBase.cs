@@ -40,7 +40,7 @@ namespace Blog.Helpers
         /// </summary>
         /// <param name="blnAuthenticated">Param to identify if the user is authenticated</param>
         /// <returns></returns>
-        List<Models.Post> ListPosts(bool blnAuthenticated);
+        List<Models.Post> ListPosts(bool blnAuthenticated, string strProfile);
 
         /// <summary>
         /// delete method
@@ -58,7 +58,9 @@ namespace Blog.Helpers
         /// Update method
         /// </summary>
         /// <param name="objPost">Object with all data to save</param>
-        void Update(Models.Post objPost);
+        /// <param name="strProfile">Profile of user. 1= writer, 2=editor</param>
+        /// <param name="strName">User name</param>
+        void Update(Models.Post objPost, string strProfile, string strName);
 
     }
 }

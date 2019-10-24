@@ -40,12 +40,25 @@ namespace Blog.Controllers
             string strPassword = data.Password;
             try
             {
-                if (strUsername != "testBlog" && strPassword != "testBlog")
+                if (strUsername == "writer" && strPassword == "writer")
                 {
-                    return "-1";
+                    Session[Helpers.Constant.PERFIL] = "1";
                 }
-                Session[Helpers.Constant.USUARIO] = "testBlog";
-                FormsAuthentication.SetAuthCookie("testBlog", false);
+                else
+                {
+                    if (strUsername == "editor" && strPassword == "editor")
+                    {
+                        Session[Helpers.Constant.PERFIL] = "2";
+                    }
+                    else
+                    {
+                        Session[Helpers.Constant.USUARIO] = null;
+                        Session[Helpers.Constant.PERFIL] = null;
+                        return "-1";
+                    }
+                }
+                Session[Helpers.Constant.USUARIO] = strUsername;
+                FormsAuthentication.SetAuthCookie(strUsername, false);
                 return "1";
             }
             catch
@@ -62,6 +75,7 @@ namespace Blog.Controllers
         public ActionResult LogOut()
         {
             Session[Helpers.Constant.USUARIO] = null;
+            Session[Helpers.Constant.PERFIL] = null;
             FormsAuthentication.SignOut();
             Session.Clear();
             Session.Abandon();

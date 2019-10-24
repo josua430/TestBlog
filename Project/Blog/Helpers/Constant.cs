@@ -8,5 +8,6 @@ namespace Blog.Helpers
     public class Constant
     {
         public const String USUARIO = "Usuario";
+        public const String PERFIL = "Perfil";
     }
 }

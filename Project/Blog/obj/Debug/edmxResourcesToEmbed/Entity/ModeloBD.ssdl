@@ -20,7 +20,9 @@
     <Property Name="post_text" Type="varchar(max)" />
     <Property Name="post_author" Type="varchar" MaxLength="50" />
     <Property Name="post_change" Type="datetime" />
-    <Property Name="post_published" Type="bit" />
+    <Property Name="post_status_published" Type="numeric" Precision="1" Scale="0" />
+    <Property Name="post_approval" Type="datetime" />
+    <Property Name="post_approval_name" Type="varchar" MaxLength="50" />
   </EntityType>
   <Association Name="FK_comments_posts">
     <End Role="posts" Type="Self.posts" Multiplicity="0..1">

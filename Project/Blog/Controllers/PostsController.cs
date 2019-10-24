@@ -45,7 +45,8 @@ namespace Blog.Controllers
             {
                 clsDataBaseMethodsPosts objDB = new clsDataBaseMethodsPosts();
                 bool blnUserIsAuthenticated = Session[Blog.Helpers.Constant.USUARIO] == null ? false : true;
-                return Json(objDB.ListPosts(blnUserIsAuthenticated));
+                string strProfile = Session[Blog.Helpers.Constant.PERFIL] == null ? "" : Session[Blog.Helpers.Constant.PERFIL].ToString();
+                return Json(objDB.ListPosts(blnUserIsAuthenticated, strProfile));
             }
             catch (Exception)
             {
@@ -143,7 +144,13 @@ namespace Blog.Controllers
                     model.strAuthor = objBlog.post_author;
                     model.dtChange = (DateTime)objBlog.post_change;
                     model.IdPost = (int)objBlog.post_id;
-                    model.blnPublished = (bool)objBlog.post_published;
+                    if (Session[Blog.Helpers.Constant.PERFIL].ToString() == "1")
+                    {
+                        model.blnStatusToPublish = objBlog.post_status_published > 0 ? true : false;
+                    }else
+                    {
+                        model.blnStatusToPublish = false;
+                    }
                 }
             }
             catch (Exception ex)
@@ -169,7 +176,7 @@ namespace Blog.Controllers
                     TempData["Error"] = "¡Post title already exists!";
                     return RedirectToAction("Index", "Posts");
                 }
-                objDB.Update(objPost);
+                objDB.Update(objPost, Session[Blog.Helpers.Constant.PERFIL].ToString(), Session[Blog.Helpers.Constant.USUARIO].ToString());
 
                 TempData["Success"] = "Update successfull!";
                 return RedirectToAction("Index", "Posts");
