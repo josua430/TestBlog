@@ -72,7 +72,7 @@
     <script src="@Url.Content("~/Scripts/jquery-ui.min.js")"></script>
     <script src="@Url.Content("~/Scripts/pako_deflate.min.js")"></script>
 
-    <link rel="shortcut icon" type="image/x-icon" href="~/Content/FalabellaIco.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/images/blog.ico" />
 </head>
 <body class="skin-Gray" style="background-color:rgb(160, 203, 117);">
 
@@ -118,79 +118,11 @@
         <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
             <ul class="nav sidebar-nav">
                 <li class="sidebar-brand">
-                    <a href="@Url.Action("Index", "Home")"><img alt="Blog" src="~/Content/images/blog_image.jfif">  </a>
+                    <a href="@Url.Action("Index", "Home")"><img alt="Blog" height="42" width="42" src="~/Content/images/blog_image.png">  </a>
                 </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-cog"></i> Administración <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a href="@Url.Action("Index", "User")"><i class="fa fa-user"></i> Usuario</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index", "Profile")"><i class="fa fa-users"></i> Perfiles</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index", "Tiendas")"><i class="fa fa-building"></i> Tiendas</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index", "Marcas")"><i class="fa fa-star"></i> Marcas</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index", "Fallas")"><i class="fa fa-bell-slash"></i> Fallas</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index", "UbicacionFallas")"><i class="fa fa-bullseye"></i> Ubicación de Fallas</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index", "Glosas")"><i class="fa fa-map"></i> Glosas</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index", "MotivosReclamos")"><i class="fa fa-list-alt"></i> Motivos Reclamos</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index", "Proveedores")"><i class="fa fa-street-view"></i> Proveedores</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index", "Bancos")"><i class="fa fa-bank"></i> Bancos</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index", "Franquicias")"><i class="fa fa-credit-card"></i> Franquicias</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index", "CorreoTiendas")"><i class="fa fa-envelope"></i> Correo Tiendas Normalizacion</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index", "MotivosACH")"><i class="fa fa-list-alt"></i> Motivos ACH</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index", "MotivoDevolucion")"><i class="fa fa-list-alt"></i> Motivos Devolución</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index", "TipoServicio")"><i class="fa fa-gavel"></i> Tipo de Servicios</a>
-                                </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Index", "ServicioTecnico")"><i class="fa fa-wrench"></i> Servicio Técnico</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Consulta", "ServicioTecnico")"><i class="fa fa-line-chart"></i> Rep. Servicio Técnico</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Index", "Normalizaciones")"><i class="fa fa-tasks"></i> Normalizaciones</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Consulta", "Normalizaciones")"><i class="fa fa-line-chart"></i> Rep. Normalizaciones</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("ConsultaSinCliente", "Normalizaciones")"><i class="fa fa-line-chart"></i> Rep. Normal. Sin Cliente</a>
-                    </li>
                 <li>
-                    <a href="@Url.Action("Index", "PQR")"><i class="fa fa-ticket"></i> PQR</a>
+                    <a href="@Url.Action("Index", "Posts")"><i class="fa fa-building"></i> Posts</a>
                 </li>
-                    <li>
-                        <a href="@Url.Action("Consulta", "PQR")"><i class="fa fa-line-chart"></i> Reporte PQR</a>
-                    </li>
                 <li>
                     <a href="@Url.Action("logOut", "Login")"><i class="fa fa-times"></i><span> Cerrar Sesion</span></a>
                 </li>

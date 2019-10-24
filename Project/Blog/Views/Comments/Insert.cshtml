@@ -1,10 +1,10 @@
 ﻿@using Blog.Models
-@model  Glosas
+@model  Comments
 
 @{
     ViewBag.Title = "Blog";
-    ViewBag.Opcion = "Administración";
-    ViewBag.SubOpcion = "Glosas";
+    ViewBag.Opcion = "Insert";
+    ViewBag.SubOpcion = "Comment";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -18,56 +18,62 @@
         }
     </style>
     <div class="col-md-12">
-        @Html.HiddenFor(a => a.IdGlosa)
         <div class="box box-primary" style="height: 100%">
             <div class="panel panel-default" style="margin: 1% 1% 1% 1%">
-                <div class="panel-heading">Actualizar Glosas</div>
+                <div class="panel-heading">New Comment</div>
                 <div class="panel-body">
                     <div class="row">
                         <!-- BEGIN PAGE CONTENT-->
 
                         <div class="row">
                             <div class="col-md-2 col-lg-offset-1 ">
-                                Glosa Servicio Técnico:
+                                Email:
                             </div>
                             <div class="col-md-4 col-lg-offset-1 ">
-                                @Html.TextAreaFor(a => a.__GlosaST, new { @class = "form-control", @rows = 5 })
+                                @Html.TextBoxFor(a => a.strEmail, new { @class = "form-control", maxlength = 49 })
                             </div>
                         </div>
                         <br />
-
                         <div class="row">
                             <div class="col-md-2 col-lg-offset-1 ">
-                                Glosa PQR:
+                                Text:
                             </div>
                             <div class="col-md-4 col-lg-offset-1 ">
-                                @Html.TextAreaFor(a => a.GlosaPQR, new { @class = "form-control", @rows = 5 })
+                                @Html.TextBoxFor(a => a.strText, new { @class = "form-control", maxlength = 1000 })
                             </div>
                         </div>
                         <br />
-
                         <div class="row">
                             <div class="col-md-2 col-lg-offset-1 ">
-                                Glosa Normalizaciones:
+                                Author:
                             </div>
                             <div class="col-md-4 col-lg-offset-1 ">
-                                @Html.TextAreaFor(a => a.GlosaNormalizacion, new { @class = "form-control", @rows = 5 })
+                                @Html.TextBoxFor(a => a.strAuthor, new { @class = "form-control", maxlength = 49 })
+                            </div>
+
+                            <div class="col-md-2 col-sm-2">
                             </div>
                         </div>
                         <br />
-
+                        <div class="row">
+                            <div class="col-md-4 col-lg-offset-1 ">
+                                Publish: @Html.CheckBoxFor(a => a.blnPublished)
+                            </div>
+                        </div>
+                        <br />
                     </div>
                     <div class="col-md-3 col-sm-2 col-lg-offset-1 ">
-                        <a href="@Url.Action("Index", "Glosas")" class="btn btn-default">
+                        <a href="@Url.Action("Index", "Posts")" class="btn btn-default">
                             <span class="glyphicon glyphicon-backward"></span>
-                            Volver
+                            Back
                         </a>
                     </div>
+
 
                     <div class="col-md-3 col-sm-2 col-lg-offset-5 ">
                         <button type="submit" class="btn btn-default" id="btnSave">
                             <span class="glyphicon glyphicon-floppy-disk"></span>
-                            Guardar
+                            Save
                         </button>
                     </div>
                 </div>
@@ -89,18 +95,27 @@
         @Html.Raw((string.Format("ShowMessageSuccess('{0}');", ViewBag.Success)))
     }
 
-        //$("#btnSave").click(function (event) {
 
-        //    var strMensaje = "";
+        $("#btnSave").click(function (event) {
 
-        //    if ($("#NombreGlosa").val() == null || $("#NombreGlosa").val().trim() == "") {
-        //        strMensaje = strMensaje + "Ingrese nombre de Glosa </br>";
-        //    }
-        //    if (strMensaje != "") {
-        //        ShowMessageWarning(strMensaje);
-        //        event.preventDefault(event);
-        //    }
-        //});
+            var strMensaje = "";
+
+            if ($("#strTitle").val() == null || $("#strTitle").val().trim() == "") {
+                strMensaje = strMensaje + "Fill the title </br>";
+            }
+
+            if ($("#strText").val() == null || $("#strText").val().trim() == "") {
+                strMensaje = strMensaje + "Fill the text </br>";
+            }
+
+            if ($("#strAuthor").val() == null || $("#strAuthor").val().trim() == "") {
+                strMensaje = strMensaje + "Fill the author </br>";
+            }
+            if (strMensaje != "") {
+                ShowMessageWarning(strMensaje);
+                event.preventDefault(event);
+            }
+        });
     });
 
 

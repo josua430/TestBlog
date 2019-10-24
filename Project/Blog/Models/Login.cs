@@ -5,9 +5,19 @@ using System.Web;
 
 namespace Blog.Models
 {
+    /// <summary>
+    /// model for login
+    /// </summary>
     public class Login
     {
+        /// <summary>
+        /// user name
+        /// </summary>
         public string UserName { get; set; }
+
+        /// <summary>
+        /// password
+        /// </summary>
         public string Password { get; set; }
 
     }

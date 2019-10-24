@@ -6,8 +6,15 @@ using System.Web.Mvc;
 
 namespace Blog.Controllers
 {
+    /// <summary>
+    /// Controller for Home page
+    /// </summary>
     public class HomeController : Controller
     {
+        /// <summary>
+        /// Index for controller
+        /// </summary>
+        /// <returns>View</returns>
         [Authorize]
         public ActionResult Index()
         {

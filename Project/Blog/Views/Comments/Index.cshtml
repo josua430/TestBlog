@@ -1,0 +1,90 @@
+﻿@using Blog.Models
+@model  Comments
+
+@{
+    ViewBag.Title = "Blog";
+    ViewBag.Opcion = "Manage";
+    ViewBag.SubOpcion = "Comments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<form method="POST">
+    @Html.HiddenFor(a => a.intPostId)
+    <div class="col-md-12">
+        <div class="box box-primary" style="height: 100%">
+            <br />
+            <div class="portlet-title">
+                <a href="@Url.Action("Insert", "Comments", new {id=Model.intPostId})" class="btn btn-default btn-md">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    New comment...
+                </a>
+            </div>
+            <br />
+            <div id="grid"></div>
+        </div>
+    </div>
+
+</form>
+
+<script>
+    var dsUsuario = new kendo.data.DataSource({
+        pageSize:10,
+        transport: {
+            read: {
+                url: "@Url.Action("LoadGrid", "Comments", new { id = Model.intPostId })",
+            type: "POST"
+        }
+    },
+        schema: {
+            model: {
+                id: "IdComment",
+                fields: {
+                    IdComment:{editable:false}
+        }
+    }
+    }
+    });
+    var gridUsuario = $("#grid").kendoGrid({
+        toolbar: ["excel"],
+        excel: {
+            allPages: true
+        },
+        excelExport: function (e) {
+            e.workbook.fileName = "IdComment.xlsx";
+        },
+        columns: [
+            { field: "IdComment", title: "Código", hidden:true },
+            { field: "strText", title: "Text" },
+            { field: "strAuthor", title: "Author" },
+            { field: "strEmail", title: "Title" },
+            { field: "strChange", title: "Change" }
+    ],
+    sortable:true,
+    scrollable: true,
+    pageable: {
+        pageSizes: false,
+        messages: {
+            itemsPerPage: "Records by page",
+            display: "Showing {0}-{1} of {2} records"
+        }
+    },
+    culture: "es-CO",
+        dataSource: dsUsuario
+    }).data("kendoGrid");
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        @if (!String.IsNullOrEmpty(ViewBag.Error))
+        {
+            @Html.Raw((string.Format("ShowMessageError('{0}');", ViewBag.Error )))
+        }
+
+        @if (!String.IsNullOrEmpty(ViewBag.Success))
+        {
+            @Html.Raw((string.Format("ShowMessageSuccess('{0}');", ViewBag.Success)))
+        }
+    });
+</script>

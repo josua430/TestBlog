@@ -16,7 +16,7 @@
     <Key>
       <PropertyRef Name="post_id" />
     </Key>
-    <Property Name="post_id" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="post_id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="post_title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="post_text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="post_author" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />

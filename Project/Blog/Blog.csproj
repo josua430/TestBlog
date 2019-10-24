@@ -178,17 +178,15 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Attributes\SessionExpireFilterAttribute.cs" />
-    <Compile Include="Attributes\ValidateSession.cs" />
     <Compile Include="Connected Services\ClienteFService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\GlosasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
-    <Compile Include="Controllers\FallasController.cs" />
+    <Compile Include="Controllers\CommentsController.cs" />
+    <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Entity\comments.cs">
       <DependentUpon>ModeloBD.tt</DependentUpon>
     </Compile>
@@ -213,12 +211,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\clsDataBaseMethodsPosts.cs" />
     <Compile Include="Helpers\Constant.cs" />
-    <Compile Include="Helpers\Enums.cs" />
-    <Compile Include="Helpers\Impersonator.cs" />
-    <Compile Include="Models\Glosas.cs" />
+    <Compile Include="Helpers\InterfaceData.cs" />
     <Compile Include="Models\Login.cs" />
-    <Compile Include="Models\Fallas.cs" />
+    <Compile Include="Models\Comments.cs" />
+    <Compile Include="Models\Post.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -243,7 +241,8 @@
     <Content Include="Content\icheck\minimal\minimal%402x.png" />
     <Content Include="Content\icheck\minimal\minimal.css" />
     <Content Include="Content\icheck\minimal\minimal.png" />
-    <Content Include="Content\images\blog_image.jfif" />
+    <Content Include="Content\images\blog.ico" />
+    <Content Include="Content\images\blog_image.png" />
     <Content Include="Content\images\ui-icons_444444_256x240.png" />
     <Content Include="Content\images\ui-icons_555555_256x240.png" />
     <Content Include="Content\images\ui-icons_777620_256x240.png" />
@@ -1086,11 +1085,11 @@
     <Content Include="Views\Shared\EditorTemplates\String.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Time.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Url.cshtml" />
-    <Content Include="Views\Fallas\Index.cshtml" />
-    <Content Include="Views\Fallas\Insert.cshtml" />
-    <Content Include="Views\Fallas\Update.cshtml" />
-    <Content Include="Views\Glosas\Index.cshtml" />
-    <Content Include="Views\Glosas\Update.cshtml" />
+    <Content Include="Views\Posts\Index.cshtml" />
+    <Content Include="Views\Posts\Insert.cshtml" />
+    <Content Include="Views\Posts\Update.cshtml" />
+    <Content Include="Views\Comments\Index.cshtml" />
+    <Content Include="Views\Comments\Insert.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

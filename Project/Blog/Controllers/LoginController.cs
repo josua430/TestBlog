@@ -10,6 +10,9 @@ using System.DirectoryServices;
 
 namespace Blog.Controllers
 {
+    /// <summary>
+    /// Controller for Login
+    /// </summary>
     public class LoginController : Controller
     {
         /// <summary>
@@ -39,10 +42,9 @@ namespace Blog.Controllers
             {
                 if (strUsername != "testBlog" && strPassword != "testBlog")
                 {
-                    return "0";
+                    return "-1";
                 }
                 Session[Helpers.Constant.USUARIO] = "testBlog";
-                Session[Helpers.Constant.PERFILES] = 1;
                 FormsAuthentication.SetAuthCookie("testBlog", false);
                 return "1";
             }
@@ -64,7 +66,6 @@ namespace Blog.Controllers
             Session.Clear();
             Session.Abandon();
             return RedirectToAction("Index", "Login");
-
         }
 
     }

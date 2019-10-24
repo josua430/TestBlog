@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "Blog";
-    ViewBag.Opcion = "Administración";
-    ViewBag.SubOpcion = "Fallas";
+    ViewBag.Opcion = "Manage";
+    ViewBag.SubOpcion = "Posts";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,12 +11,12 @@
     <div class="col-md-12">
         <div class="box box-primary" style="height: 100%">
             <br />
-            @if (((List<Blog.Entity.PERFIL>)Session[Blog.Helpers.Constant.PERFILES]).FirstOrDefault(p => p.ID_FUNCION == (Convert.ToInt32(Blog.Helpers.Functions.Falla_Crear))) != null)
+            @if (Session[Blog.Helpers.Constant.USUARIO] != null)
             {
                 <div class="portlet-title">
-                    <a href="@Url.Action("Insert", "Fallas")" class="btn btn-default btn-md">
+                    <a href="@Url.Action("Insert", "Posts")" class="btn btn-default btn-md">
                         <span class="glyphicon glyphicon-plus"></span>
-                        Nuevo...
+                        New post...
                     </a>
                 </div>
             }
@@ -32,15 +32,15 @@
         pageSize:10,
         transport: {
             read: {
-                url: "@Url.Action("LoadGrid", "Fallas")",
+                url: "@Url.Action("LoadGrid", "Posts")",
             type: "POST"
         }
     },
         schema: {
             model: {
-                id: "IdFalla",
+                id: "IdPost",
                 fields: {
-                    IdFalla:{editable:false}
+                    IdPost:{editable:false}
         }
     }
     }
@@ -51,27 +51,29 @@
             allPages: true
         },
         excelExport: function (e) {
-            e.workbook.fileName = "Fallas.xlsx";
+            e.workbook.fileName = "Posts.xlsx";
         },
         columns: [
-            { field: "IdFalla", title: "Código", hidden:true },
-            { field: "NombreFalla", title: "Nombre" }
-            @if (((List<Blog.Entity.PERFIL>)Session[Blog.Helpers.Constant.PERFILES]).FirstOrDefault(p => p.ID_FUNCION == (Convert.ToInt32(Blog.Helpers.Functions.Falla_Editar))) != null)
+            { field: "IdPost", title: "Código", hidden:true },
+            { field: "strTitle", title: "Title" },
+            { field: "strText", title: "Text" },
+            { field: "strAuthor", title: "Author" },
+            { field: "strChange", title: "Change" },
+            { field: "blnPublished", title: "Published" }
+            @if (Session[Blog.Helpers.Constant.USUARIO] != null)
             {
-                @MvcHtmlString.Create(@" ,{ template: ""<a class='btn btn-success' href='" + (Url.Action("Update", "Fallas")) + "?id=#= IdFalla #'><span class='fa fa-edit'></span> Editar</a>" + @"""}");
+                @MvcHtmlString.Create(@" ,{ template: ""<a class='btn btn-success' href='" + (Url.Action("Update", "Posts")) + "?id=#= IdPost #'><span class='fa fa-edit'></span> Edit</a>" + @"""}");
+                @MvcHtmlString.Create(@" ,{ template: ""<input type='hidden' id='id' value='#= IdPost #' /> <button type='button' class='btn btn-danger' id='btnDelete'><span class='glyphicon glyphicon-trash'></span> Delete</button>""}");
             }
-            @if (((List<Blog.Entity.PERFIL>)Session[Blog.Helpers.Constant.PERFILES]).FirstOrDefault(p => p.ID_FUNCION == (Convert.ToInt32(Blog.Helpers.Functions.Falla_Eliminar))) != null)
-            {
-                @MvcHtmlString.Create(@" ,{ template: ""<input type='hidden' id='id' value='#= IdFalla #' /> <button type='button' class='btn btn-danger' id='btnDelete'><span class='glyphicon glyphicon-trash'></span> Eliminar</button>""}");
-            }
+                @MvcHtmlString.Create(@" ,{ template: ""<a class='btn btn-primary' href='" + (Url.Action("Index", "Comments")) + "?id=#= IdPost #'><span class='fa fa-comments'></span> Comments</a>" + @"""}")
     ],
     sortable:true,
     scrollable: true,
     pageable: {
         pageSizes: false,
         messages: {
-            itemsPerPage: "Registros por página",
-            display: "Mostrando {0}-{1} de {2} registros"
+            itemsPerPage: "Records by page",
+            display: "Showing {0}-{1} of {2} records"
         }
     },
     culture: "es-CO",
@@ -96,16 +98,16 @@
 
             var id = $(this).parent().find('#id').val();
 
-            var div = $("<div>¿Está seguro de eliminar la Falla seleccionada?</div>");
+            var div = $("<div>¿Are you sure?</div>");
             div.dialog({
-                title: "CONFIRMACIÓN",
+                title: "CONFIRM",
                 modal: true,
                 buttons: [
                     {
                         text: "SI",
                         click: function () {
                             $.ajax({
-                                url: '../Fallas/Delete',
+                                url: '../Posts/Delete',
                                 data: { id: id },
                                 error: function (req, status, error) {
                                     ShowMessageError(req.responseText);
