@@ -1,0 +1,143 @@
+﻿@{
+    ViewBag.Title = "Blog";
+    ViewBag.Opcion = "Manage";
+    ViewBag.SubOpcion = "Posts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<form method="POST">
+
+    <div class="col-md-12">
+        <div class="box box-primary" style="height: 100%">
+            <br />
+            @if (Session[Blog.Helpers.Constant.USUARIO] != null && Session[Blog.Helpers.Constant.PERFIL] != null
+                && Session[Blog.Helpers.Constant.PERFIL].ToString() != "2")
+            {
+                <div class="portlet-title">
+                    <a href="@Url.Action("Insert", "Posts")" class="btn btn-default btn-md">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        New post...
+                    </a>
+                </div>
+            }
+            <br />
+            <div id="grid"></div>
+        </div>
+    </div>
+
+</form>
+
+<script>
+    var dsUsuario = new kendo.data.DataSource({
+        pageSize:10,
+        transport: {
+            read: {
+                url: "@Url.Action("LoadGrid", "Posts")",
+            type: "POST"
+        }
+    },
+        schema: {
+            model: {
+                id: "IdPost",
+                fields: {
+                    IdPost:{editable:false}
+        }
+    }
+    }
+    });
+    var gridUsuario = $("#grid").kendoGrid({
+        toolbar: ["excel"],
+        excel: {
+            allPages: true
+        },
+        excelExport: function (e) {
+            e.workbook.fileName = "Posts.xlsx";
+        },
+        columns: [
+            { field: "IdPost", title: "Code", hidden:true },
+            { field: "strTitle", title: "Title" },
+            { field: "strText", title: "Text" },
+            { field: "strAuthor", title: "Author" },
+            { field: "strChange", title: "Changed" },
+            { field: "strStatusPublished", title: "Status" },
+            { field: "strApproverName", title: "Approver" },
+            { field: "strApproval", title: "Approved" }
+            @if (Session[Blog.Helpers.Constant.USUARIO] != null)
+            {
+                @MvcHtmlString.Create(@" ,{ template: ""<a #= strShowEditButton # class='btn btn-success' href='" + (Url.Action("Update", "Posts")) + "?id=#= IdPost #'><span class='fa fa-edit'></span> Edit</a>" + @"""}");
+                @MvcHtmlString.Create(@" ,{ template: ""<input type='hidden' id='id' value='#= IdPost #' /> <button type='button' #= strShowDeleteButton # class='btn btn-danger' id='btnDelete'><span class='glyphicon glyphicon-trash'></span> Delete</button>""}");
+            }
+                @MvcHtmlString.Create(@" ,{ template: ""<a #= strShowCommentButton # class='btn btn-primary' href='" + (Url.Action("Index", "Comments")) + "?id=#= IdPost #'><span class='fa fa-comments'></span> Comments</a>" + @"""}")
+    ],
+    sortable:true,
+    scrollable: true,
+    pageable: {
+        pageSizes: false,
+        messages: {
+            itemsPerPage: "Records by page",
+            display: "Showing {0}-{1} of {2} records"
+        }
+    },
+    culture: "es-CO",
+        dataSource: dsUsuario
+    }).data("kendoGrid");
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        @if (!String.IsNullOrEmpty(ViewBag.Error))
+        {
+            @Html.Raw((string.Format("ShowMessageError('{0}');", ViewBag.Error )))
+        }
+
+        @if (!String.IsNullOrEmpty(ViewBag.Success))
+        {
+            @Html.Raw((string.Format("ShowMessageSuccess('{0}');", ViewBag.Success)))
+        }
+
+        $(document).delegate("#btnDelete", "click", function () {
+
+            var id = $(this).parent().find('#id').val();
+
+            var div = $("<div>¿Are you sure?</div>");
+            div.dialog({
+                title: "CONFIRM",
+                modal: true,
+                buttons: [
+                    {
+                        text: "SI",
+                        click: function () {
+                            $.ajax({
+                                url: '../Posts/Delete',
+                                data: { id: id },
+                                error: function (req, status, error) {
+                                    ShowMessageError(req.responseText);
+                                },
+                                success: function (response) {
+                                    if (response != null) {
+                                        if (response.Type == 'Error') {
+                                            ShowMessageSuccess(response.Message);
+                                        } else {
+                                            ShowMessageSuccess(response.Message);
+                                            location.reload();
+
+                                        }
+                                    }
+                                }
+                            });
+                            $(this).dialog('close');
+                        }
+                    },
+                    {
+                        text: "NO",
+                        click: function () {
+                            $(this).dialog('close');
+                        }
+                    }
+                ]
+            });
+        });
+    });
+</script>

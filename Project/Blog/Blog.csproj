@@ -404,6 +404,7 @@
     <Content Include="Entity\ModeloBD.edmx.diagram">
       <DependentUpon>ModeloBD.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\BlogTestZemoga - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />

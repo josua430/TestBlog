@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="blog_dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="comments">
+    <Key>
+      <PropertyRef Name="comment_id" />
+    </Key>
+    <Property Name="comment_id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="comment_author" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comment_email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comment_text" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="comment_timestamp" Type="DateTime" Precision="3" />
+    <Property Name="comment_post_id" Type="Decimal" Precision="18" Scale="0" />
+    <NavigationProperty Name="posts" Relationship="Self.FK_comments_posts" FromRole="comments" ToRole="posts" />
+  </EntityType>
+  <EntityType Name="posts">
+    <Key>
+      <PropertyRef Name="post_id" />
+    </Key>
+    <Property Name="post_id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="post_title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="post_text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="post_author" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="post_change" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="comments" Relationship="Self.FK_comments_posts" FromRole="posts" ToRole="comments" />
+    <Property Name="post_approval" Type="DateTime" Precision="3" />
+    <Property Name="post_status_published" Type="Decimal" Precision="1" Scale="0" />
+    <Property Name="post_approval_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_comments_posts">
+    <End Role="posts" Type="Self.posts" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="comments" Type="Self.comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="posts">
+        <PropertyRef Name="post_id" />
+      </Principal>
+      <Dependent Role="comments">
+        <PropertyRef Name="comment_post_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="blog_dbEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="comments" EntityType="Self.comments" />
+    <EntitySet Name="posts" EntityType="Self.posts" />
+    <AssociationSet Name="FK_comments_posts" Association="Self.FK_comments_posts">
+      <End Role="posts" EntitySet="posts" />
+      <End Role="comments" EntitySet="comments" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

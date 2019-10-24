@@ -147,7 +147,7 @@ namespace Blog.Helpers
                         strApproverName = item.post_approval_name,
                         strStatusPublished = strStatusName,
                         strShowEditButton = blnEditButton==false ? "disabled" : "",
-                        strShowDeleteButton = item.post_status_published != 2 ? "disabled" : "",
+                        strShowDeleteButton = item.post_status_published == 1 ? "disabled" : "",
                         strShowCommentButton = item.post_status_published != 2 ? "disabled" : "",
                         IdPost = (int)item.post_id
                     });
