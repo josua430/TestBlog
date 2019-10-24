@@ -211,8 +211,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\clsDataBaseMethodsComments.cs" />
     <Compile Include="Helpers\clsDataBaseMethodsPosts.cs" />
     <Compile Include="Helpers\Constant.cs" />
+    <Compile Include="Helpers\InterfaceDataComments.cs" />
     <Compile Include="Helpers\InterfaceData.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\Comments.cs" />

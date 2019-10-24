@@ -13,7 +13,7 @@ namespace Blog.Models
         /// <summary>
         /// id of comment
         /// </summary>
-        public int IdCommnent { get; set; }
+        public int IdComment { get; set; }
 
         /// <summary>
         /// Text of comment

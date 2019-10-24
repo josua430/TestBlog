@@ -17,6 +17,7 @@
             margin: 0;
         }
     </style>
+    @Html.HiddenFor(a=>a.intPostId)
     <div class="col-md-12">
         <div class="box box-primary" style="height: 100%">
             <div class="panel panel-default" style="margin: 1% 1% 1% 1%">
@@ -24,22 +25,12 @@
                 <div class="panel-body">
                     <div class="row">
                         <!-- BEGIN PAGE CONTENT-->
-
-                        <div class="row">
-                            <div class="col-md-2 col-lg-offset-1 ">
-                                Email:
-                            </div>
-                            <div class="col-md-4 col-lg-offset-1 ">
-                                @Html.TextBoxFor(a => a.strEmail, new { @class = "form-control", maxlength = 49 })
-                            </div>
-                        </div>
-                        <br />
                         <div class="row">
                             <div class="col-md-2 col-lg-offset-1 ">
                                 Text:
                             </div>
                             <div class="col-md-4 col-lg-offset-1 ">
-                                @Html.TextBoxFor(a => a.strText, new { @class = "form-control", maxlength = 1000 })
+                                @Html.TextBoxFor(a => a.strText, new { @class = "form-control", maxlength = 500 })
                             </div>
                         </div>
                         <br />
@@ -56,14 +47,17 @@
                         </div>
                         <br />
                         <div class="row">
+                            <div class="col-md-2 col-lg-offset-1 ">
+                                Email:
+                            </div>
                             <div class="col-md-4 col-lg-offset-1 ">
-                                Publish: @Html.CheckBoxFor(a => a.blnPublished)
+                                @Html.TextBoxFor(a => a.strEmail, new { @class = "form-control", maxlength = 49 })
                             </div>
                         </div>
                         <br />
                     </div>
                     <div class="col-md-3 col-sm-2 col-lg-offset-1 ">
-                        <a href="@Url.Action("Index", "Posts")" class="btn btn-default">
+                        <a href="@Url.Action("Index", "Comments", new { id = Model.intPostId })" class="btn btn-default">
                             <span class="glyphicon glyphicon-backward"></span>
                             Back
                         </a>
@@ -100,16 +94,16 @@
 
             var strMensaje = "";
 
-            if ($("#strTitle").val() == null || $("#strTitle").val().trim() == "") {
-                strMensaje = strMensaje + "Fill the title </br>";
-            }
-
             if ($("#strText").val() == null || $("#strText").val().trim() == "") {
                 strMensaje = strMensaje + "Fill the text </br>";
             }
 
             if ($("#strAuthor").val() == null || $("#strAuthor").val().trim() == "") {
                 strMensaje = strMensaje + "Fill the author </br>";
+            }
+
+            if ($("#strEmail").val() == null || $("#strEmail").val().trim() == "") {
+                strMensaje = strMensaje + "Fill the email </br>";
             }
             if (strMensaje != "") {
                 ShowMessageWarning(strMensaje);

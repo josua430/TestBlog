@@ -45,9 +45,13 @@ namespace Blog.Controllers
         {
             try
             {
-                clsDataBaseMethodsPosts objDB = new clsDataBaseMethodsPosts();
-                bool blnUserIsAuthenticated = Session[Blog.Helpers.Constant.USUARIO] == null ? false : true;
-                return Json(objDB.ListPosts(blnUserIsAuthenticated));
+                clsDataBaseMethodsComments objDB = new clsDataBaseMethodsComments();
+                if (id == null || id == "")
+                {
+                    id = "0";
+                }
+                int intValorId = Convert.ToInt32(id);
+                return Json(objDB.ListComments(intValorId));
             }
             catch (Exception)
             {
@@ -59,13 +63,12 @@ namespace Blog.Controllers
         #region Insert
 
         /// <summary>
-        /// Get for Insert new Post
+        /// Get for Insert new comment
         /// </summary>
         /// <returns>View</returns>
         [HttpGet]
-        public ActionResult Insert()
+        public ActionResult Insert(string id)
         {
-            var model = new Models.Post();
             if (TempData["Error"] != null && !String.IsNullOrEmpty(TempData["Error"].ToString()))
             {
                 ViewBag.Error = TempData["Error"].ToString();
@@ -75,40 +78,32 @@ namespace Blog.Controllers
                 ViewBag.Success = TempData["Success"].ToString();
             }
 
-            if (Session[Blog.Helpers.Constant.USUARIO] == null)
-            {
-                return RedirectToAction("Index", "Login");
-            }
-
+            var model = new Models.Comments();
+            model.intPostId = Convert.ToInt32(id);
             return View(model);
         }
 
         /// <summary>
-        /// Insert data for new post
+        /// Insert data for new comment
         /// </summary>
-        /// <param name="objPost">object with data to insert</param>
+        /// <param name="objComment">object with data to insert</param>
         /// <returns>View</returns>
         [HttpPost]
-        public ActionResult Insert(Models.Post objPost)
+        public ActionResult Insert(Models.Comments objComment)
         {
             try
             {
-                clsDataBaseMethodsPosts objDB = new clsDataBaseMethodsPosts();
-                if (objDB.ExistsTitle(objPost.strTitle))
-                {
-                    TempData["Error"] = "¡Post title already exists!";
-                    return RedirectToAction("Index", "Posts");
-                }
-                objDB.Insert(objPost);
+                clsDataBaseMethodsComments objDB = new clsDataBaseMethodsComments();
+                objDB.Insert(objComment);
 
-                TempData["Success"] = "¡Post Created!";
-                return RedirectToAction("Index", "Posts");
+                TempData["Success"] = "¡Comment Created!";
+                return RedirectToAction("Index", "Comments", new { id = objComment.intPostId });
             }
             catch (Exception ex)
             {
                 ViewBag.Error = ex.Message;
             }
-            return View(objPost);
+            return View(objComment);
         }
         #endregion
 
